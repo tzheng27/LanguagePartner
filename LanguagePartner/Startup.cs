@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using LanguagePartner.Models;
 
 namespace LanguagePartner
 {
@@ -29,6 +30,8 @@ namespace LanguagePartner
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<FormattingService>();
+            
             services.AddTransient<FeatureToggles>(x => new FeatureToggles
             {   //initialize a new instance of FeatureToggles with the value from configuration (appsetting[.Development].json)
                 DeveloperExceptions = configuration.GetValue<bool>("FeatureToggles:DeveloperExceptions")
