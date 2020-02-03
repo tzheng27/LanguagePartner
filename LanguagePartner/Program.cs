@@ -14,7 +14,7 @@ namespace LanguagePartner
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run(); //fitst commit
+            CreateWebHostBuilder(args).Build().Run(); 
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

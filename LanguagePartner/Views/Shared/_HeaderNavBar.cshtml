@@ -1,0 +1,25 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+
+<nav>
+    <ul>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li><a href="@Url.Action("Index","Home")" title="home">Home</a></li>
+        }
+        else
+        {
+            <li><a href="@Url.Action("Login","Account")" title="home">Login</a></li>
+        }
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li>
+
+                <form id="logout" asp-controller="Account" role="form" asp-action="Logout">
+                    <input type="submit" value="Logout" />
+                </form>
+
+            </li>
+        }
+    </ul>
+</nav>

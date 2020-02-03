@@ -1,0 +1,14 @@
+﻿@{ 
+    ViewBag.Title = "Welcome to Language Partner";
+}
+
+<header>
+    @{ await Html.RenderPartialAsync("_HeaderNavBar"); }
+</header>
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("Profile", "Home", new { key = User.Identity.Name})" title="Profile">Go To My Profile</a>
+    }
+</div>

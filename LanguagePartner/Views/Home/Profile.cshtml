@@ -1,0 +1,14 @@
+﻿@model LanguagePartner.Models.Learner
+@inject LanguagePartner.Models.FormattingService Format
+
+<div>
+    Updated on <strong>@Format.AsReadableData(Model.UpdatedTime)</strong>
+</div>
+
+<div class="content">
+    <ul>
+        <li>Native Language: @Model.NativeLanuage</li>
+        <li>Second Lanuage: @Model.SecondLanguage</li>
+        <li>Learning: @Model.LearningLanguage</li>
+    </ul>
+</div>
