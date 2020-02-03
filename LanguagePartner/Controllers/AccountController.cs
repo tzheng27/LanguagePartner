@@ -34,8 +34,9 @@ namespace LanguagePartner.Controllers
                 return View();
             }
 
+            var user = await _userManager.FindByEmailAsync(login.EmailAddress);
             var result = await _signinManager.PasswordSignInAsync(
-                login.EmailAddress, login.Password, login.RememberMe, false);
+                user.UserName, login.Password, login.RememberMe, false);
 
             if (!result.Succeeded)
             {
