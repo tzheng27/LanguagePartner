@@ -18,10 +18,6 @@ namespace LanguagePartner.Models.Account
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage ="Passwords must match")]
-        [Display(Name = "Confirm Password")]
-        public string ConfirmPassword { get; set; }
-
         [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
     }
