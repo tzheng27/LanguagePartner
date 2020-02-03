@@ -26,14 +26,13 @@ namespace LanguagePartner.Controllers
         [Route("{key}")]
         public IActionResult Profile(string key)
         {
-            //var learner = _db.Learners.FirstOrDefault(x => x.Key == key);
-         
-            //if (learner == null)
-            //{
-            //    return RedirectToAction("Create", "Home");
-            //}
-            //return View(learner);
-            return RedirectToAction("Create", "Home");
+            var learner = _db.Learners.FirstOrDefault(x => x.Key == key);
+
+            if (learner == null)
+            {
+                return RedirectToAction("Create", "Home");
+            }
+            return View(learner);
         }
 
         //[Authorize]
