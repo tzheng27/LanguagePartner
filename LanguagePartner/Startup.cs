@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LanguagePartner.Services;
 using LanguagePartner.Models.DataContext;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LanguagePartner.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace LanguagePartner
 {
@@ -30,13 +26,16 @@ namespace LanguagePartner
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
+            services.AddControllersWithViews();
+
             services.AddTransient<FormattingService>();
-            
+
             services.AddTransient<FeatureToggles>(x => new FeatureToggles
             {   //initialize a new instance of FeatureToggles with the value from configuration (appsetting[.Development].json)
                 DeveloperExceptions = configuration.GetValue<bool>("FeatureToggles:DeveloperExceptions")
             });
-
+            
             services.AddDbContext<LearnerDataContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("LearnerDataContext"));
@@ -51,16 +50,14 @@ namespace LanguagePartner
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddMvc();
-
+            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
-            IHostingEnvironment env,
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
             FeatureToggles features)
         {
             if (features.DeveloperExceptions)
@@ -74,13 +71,16 @@ namespace LanguagePartner
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute("Default",
-                    "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("Default", "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
     }
 }
